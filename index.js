@@ -38,12 +38,16 @@ const adminContentWrapper = getTargetElement('panel-wrapper', document.getElemen
 const listOfBooks = getTargetElement('list-of-books', document.getElementsByTagName('div'));
 const listOfBooksWrapper = getTargetElement('list-of-books-wrapper', document.getElementsByTagName('div'));
 let deletedBooks = [];
+let targetBook = {};
 const addBookButton = getTargetElement('add-button', document.getElementsByTagName('div'));
 if (addBookButton)
-    addBookButton.addEventListener('click', saveBook);
+    addBookButton.addEventListener('click', editOrAdd);
 const previewBookButton = getTargetElement('preview-button', document.getElementsByTagName('div'));
 if (previewBookButton)
     previewBookButton.addEventListener('click', previewBook);
+const clearFormButton = getTargetElement('clear-form', document.getElementsByTagName('div'));
+if (clearFormButton)
+    clearFormButton.addEventListener('click', clearForm);
 const BOOK_FIELDS = ['title', 'img', 'year', 'author', 'numbersOfPages', 'genre'];
 function isStringRecords(data) {
     return (!!data &&
@@ -230,9 +234,8 @@ function createUserPanel(dataBook) {
     if (titleHeader)
         titleHeader.innerText = 'User panel';
     container?.classList.add('row');
-    if (adminContent) {
+    if (adminContent)
         adminContent.classList.add('hidden');
-    }
     const bookData = dataBook ?? getBooksData();
     const containerCards = document.createElement('div');
     containerCards.classList.add('container-cards');
@@ -268,14 +271,18 @@ function createItem(bookData) {
     const deleteButton = document.createElement('div');
     deleteButton.innerText = 'x';
     deleteButton.classList.add('delete-button-item');
-    deleteButton.addEventListener('click', () => deleteBook(bookData.key, restoreButton, deleteButton));
-    deleteButton.addEventListener('click', (e) => e.stopPropagation());
+    deleteButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteBook(bookData.key, restoreButton, deleteButton);
+    });
     item.appendChild(deleteButton);
     const restoreButton = document.createElement('img');
     restoreButton.setAttribute('src', 'content/reset.jpg');
     restoreButton.classList.add('delete-button-item', 'hidden');
-    restoreButton.addEventListener('click', () => restoreBook(bookData.key, restoreButton, deleteButton));
-    restoreButton.addEventListener('click', (e) => e.stopPropagation());
+    restoreButton.addEventListener('click', (e) => {
+        e.stopPropagation();
+        restoreBook(bookData.key, restoreButton, deleteButton);
+    });
     item.appendChild(restoreButton);
     return item;
 }
@@ -291,41 +298,17 @@ function showListOfBooks() {
 }
 function editBook(key) {
     const bookData = getBooksData();
-    const targetBook = bookData.find((book) => book.key === key);
+    targetBook = bookData.find((book) => book.key === key);
     const inputs = getTargetElements('input-panel', document.getElementsByTagName('input'));
     const textarea = getTargetElement('textarea-panel', document.getElementsByTagName('textarea'));
-    if (targetBook && textarea) {
-        for (let i = 0; i < inputs.length; i++) {
-            inputs[i].value = targetBook[BOOK_FIELDS[i]];
-        }
-        textarea.value = targetBook['description'];
-        if (addBookButton) {
-            addBookButton.innerText = 'Edit book';
-            addBookButton.addEventListener('click', () => saveEditBook(targetBook, bookData));
-            addBookButton.removeEventListener('click', saveBook);
-        }
-    }
-    previewBook();
-}
-function saveEditBook(targetBook, bookData) {
-    const isValid = checkModal();
-    if (!isValid)
+    if (!targetBook || !textarea || !addBookButton)
         return;
-    const inputs = getTargetElements('input-panel', document.getElementsByTagName('input'));
-    const textarea = getTargetElement('textarea-panel', document.getElementsByTagName('textarea'));
-    const book = { key: targetBook.key };
     for (let i = 0; i < inputs.length; i++) {
-        book[BOOK_FIELDS[i]] = inputs[i].value;
-        inputs[i].value = '';
+        inputs[i].value = targetBook[BOOK_FIELDS[i]];
     }
-    if (textarea) {
-        book['description'] = textarea.value;
-        textarea.value = '';
-    }
-    const index = bookData.findIndex((item) => item.key === book.key);
-    bookData[index] = book;
-    localStorage.setItem('Books', JSON.stringify(bookData));
-    showListOfBooks();
+    textarea.value = targetBook['description'];
+    addBookButton.innerText = 'Edit book';
+    previewBook();
 }
 function deleteBook(key, restoreButton, deleteButton) {
     restoreButton.classList.remove('hidden');
@@ -405,13 +388,23 @@ function checkModal() {
         return true;
     }
 }
-function saveBook() {
+function saveOrEditBook({ isEdit, targetBook }) {
     const isValid = checkModal();
     if (!isValid)
         return;
     const inputs = getTargetElements('input-panel', document.getElementsByTagName('input'));
     const textarea = getTargetElement('textarea-panel', document.getElementsByTagName('textarea'));
-    const book = { key: generateKey(16) };
+    const bookData = getBooksData();
+    let book = {};
+    if (isEdit && targetBook) {
+        book = { key: targetBook.key };
+        const index = bookData.findIndex((item) => item.key === book.key);
+        bookData[index] = book;
+    }
+    else {
+        book = { key: generateKey(16) };
+        bookData.push(book);
+    }
     for (let i = 0; i < inputs.length; i++) {
         book[BOOK_FIELDS[i]] = inputs[i].value;
         inputs[i].value = '';
@@ -420,10 +413,12 @@ function saveBook() {
         book['description'] = textarea.value;
         textarea.value = '';
     }
-    const bookData = getBooksData();
-    bookData.push(book);
     localStorage.setItem('Books', JSON.stringify(bookData));
     showListOfBooks();
+    clearForm();
+    const lastCard = getTargetElement('card-preview', document.getElementsByTagName('div'));
+    if (lastCard)
+        adminContent?.removeChild(lastCard);
 }
 function showFilters() {
     filterPanel?.classList.remove('hidden');
@@ -519,4 +514,28 @@ function changeTheme() {
         root.style.setProperty('--card-text', 'black');
         root.style.setProperty('--modal-border', '#bdc3c7');
     }
+}
+function clearForm() {
+    const textPanel = getTargetElements('text-panel', document.getElementsByTagName('p'));
+    const inputs = getTargetElements('input-panel', document.getElementsByTagName('input'));
+    const textarea = getTargetElement('textarea-panel', document.getElementsByTagName('textarea'));
+    for (let i = 0; i < inputs.length + 1; i++) {
+        if (i < inputs.length)
+            inputs[i].value = '';
+        textPanel[i].classList.remove('error');
+    }
+    if (textarea && addBookButton && adminContentWrapper) {
+        textarea.value = '';
+        addBookButton.innerText = 'Add book';
+        const lastCard = getTargetElement('card-preview', document.getElementsByTagName('div'));
+        if (lastCard)
+            adminContent?.removeChild(lastCard);
+        removeErrorMessage(adminContentWrapper);
+    }
+}
+function editOrAdd() {
+    if (addBookButton?.innerText === 'Add book')
+        saveOrEditBook({ isEdit: false });
+    else
+        saveOrEditBook({ isEdit: true, targetBook });
 }

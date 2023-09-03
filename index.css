@@ -100,7 +100,7 @@ body, html {
     font-size: 24px;
 }
 
-.sign-up-button:hover, .add-button:hover, .show-filter-button:hover, .exit:hover, .hide-filters-button:hover, .preview-button:hover {
+.sign-up-button:hover, .add-button:hover, .show-filter-button:hover, .exit:hover, .hide-filters-button:hover, .preview-button:hover, .clear-form:hover {
     transform: scale(1.1);
     transition: 0.3s;
     cursor: pointer;
@@ -156,7 +156,7 @@ body, html {
 }
 
 .panel-wrapper {
-    max-width: 850px;
+    max-width: 970px;
     flex-direction: column;
 }
 
@@ -179,7 +179,7 @@ body, html {
     align-items: center;
 }
 
-.add-button, .preview-button {
+.add-button, .preview-button, .clear-form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -565,7 +565,7 @@ body, html {
     background-color: var(--container-bg);
     overflow-y: auto;
     overflow-x: hidden;
-    margin: 56px;
+    margin: 64px;
     animation-name: opacity-animation;
     animation-duration: 1s;
     animation-fill-mode: forwards;
@@ -675,6 +675,11 @@ body, html {
         width: 90px;
         height: 25px;
     }
+
+    .container-buttons {
+        flex-direction: column;
+        margin-top: 16px;
+    }
 }
 
 @media only screen and (max-width: 700px) {
@@ -682,12 +687,7 @@ body, html {
         width: 360px;
     }
 
-    .container-buttons {
-        flex-direction: column;
-        margin-top: 16px;
-    }
-
-    .add-button, .preview-button {
+    .add-button, .preview-button, .clear-form {
         width: 240px;
         height: 30px;
     }
@@ -757,7 +757,7 @@ body, html {
     }
 
     .list-of-books {
-        margin: 16px;
+        margin: 24px;
     }
 
     .item h3 {
