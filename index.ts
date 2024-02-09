@@ -1,3 +1,7 @@
+localStorage.setItem('Admin', JSON.stringify([{ login: 'admin', password: 'admin' }]));
+localStorage.setItem('User', JSON.stringify([{ login: 'user', password: 'user' }]));
+localStorage.setItem('CurrentUser', '');
+
 //the main container of the page and header
 const container = getTargetElement('container', document.getElementsByTagName('div'));
 const titleHeader = getTargetElement('title', document.getElementsByTagName('p'));

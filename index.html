@@ -1,100 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin panel</title>
-    <link href="index.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet" />
     <script src="index.js" defer></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="overlay-modal">
-            <div class="overlay-modal-content">
-                <div class="modal-sign-up">
-                    <h2>Sign up</h2>
-                    <hr>
-        
-                    <div class="block">
-                        <p class="login-text">Login</p>
-                        <input type="text" class="login-input">
-                    </div>
-        
-                    <div class="block">
-                        <p class="password-text">Password</p>
-                        <div class="password-block">
-                            <input type="password" class="password-input">
-                            <div class="show-password-button"><img class="img-show-password" src="content/show.png"></div>
-                        </div>
-                    </div>
-        
-                    <div class="sign-up-button block">Sign up</div>
-                </div>
+      <div class="overlay-modal">
+        <div class="overlay-modal-content">
+          <div class="modal-sign-up">
+            <h2>Sign up</h2>
+            <hr />
+
+            <div class="block">
+              <p class="login-text">Login</p>
+              <input type="text" class="login-input" />
             </div>
-        </div>
 
-        <div class="header">
-            <div class="change-theme-button">
-              <div class="circle-change"></div>
+            <div class="block">
+              <p class="password-text">Password</p>
+              <div class="password-block">
+                <input type="password" class="password-input" />
+                <div class="show-password-button"><img class="img-show-password" src="content/show.png" /></div>
+              </div>
             </div>
-            <p class="title"></p>
-            <div class="exit">Exit</div>
+
+            <div class="sign-up-button block">Sign up</div>
+          </div>
         </div>
+      </div>
 
-        <div class="panel-content">
-          <div class="panel-wrapper"> 
-            <div class="panel">
-              <div class="panel-block">
-                <p class="text-panel">Title: </p>
-                <input class="input-panel">
-              </div>
-              <div class="panel-block">
-                <p class="text-panel">Img: </p>
-                <input class="input-panel">
-              </div>
-              <div class="panel-block">
-                <p class="text-panel">Year: </p>
-                <input class="input-panel">
-              </div>
-              <div class="panel-block">
-                <p class="text-panel">Author: </p>
-                <input class="input-panel">
-              </div>
-              <div class="panel-block">
-                <p class="text-panel">Number of pages: </p>
-                <input class="input-panel" type="number">
-              </div>
-              <div class="panel-block">
-                <p class="text-panel">Genre: </p>
-                <input class="input-panel">
-              </div>
-              <div class="panel-block">
-                <p class="text-panel">Description: </p>
-                <textarea class="textarea-panel"></textarea>
-              </div>
-              
-              <div class="container-buttons">
-                <div class="add-button">Add new book</div>
-                <div class="preview-button">Preview book</div>
-                <div class="clear-form">Clear form</div>
-              </div>
+      <div class="header">
+        <div class="change-theme-button">
+          <div class="circle-change"></div>
+        </div>
+        <p class="title"></p>
+        <div class="exit">Exit</div>
+      </div>
 
+      <div class="panel-content">
+        <div class="panel-wrapper">
+          <div class="panel">
+            <div class="panel-block">
+              <p class="text-panel">Title:</p>
+              <input class="input-panel" />
+            </div>
+            <div class="panel-block">
+              <p class="text-panel">Img:</p>
+              <input class="input-panel" />
+            </div>
+            <div class="panel-block">
+              <p class="text-panel">Year:</p>
+              <input class="input-panel" />
+            </div>
+            <div class="panel-block">
+              <p class="text-panel">Author:</p>
+              <input class="input-panel" />
+            </div>
+            <div class="panel-block">
+              <p class="text-panel">Number of pages:</p>
+              <input class="input-panel" type="number" />
+            </div>
+            <div class="panel-block">
+              <p class="text-panel">Genre:</p>
+              <input class="input-panel" />
+            </div>
+            <div class="panel-block">
+              <p class="text-panel">Description:</p>
+              <textarea class="textarea-panel"></textarea>
+            </div>
+
+            <div class="container-buttons">
+              <div class="add-button">Add new book</div>
+              <div class="preview-button">Preview book</div>
+              <div class="clear-form">Clear form</div>
             </div>
           </div>
-
-
-          <div class="list-of-books hidden">
-            <div class="list-of-books-wrapper">
-
-            </div>
-          </div>
-            
         </div>
 
-        <div class="user-content">
+        <div class="list-of-books hidden">
+          <div class="list-of-books-wrapper"></div>
+        </div>
+      </div>
 
-          <div class="filter-modal hidden">
-
+      <div class="user-content">
+        <div class="filter-modal hidden">
           <div class="filter-container">
             <p class="filter-title">Sorting</p>
             <div class="filter-block">
@@ -112,7 +105,7 @@
                 <option value="younger">Younger</option>
               </select>
             </div>
-            
+
             <div class="filter-block">
               <p>Number of pages</p>
               <select class="pages-filter">
@@ -141,9 +134,7 @@
 
           <div class="hide-filters-button">Hide filters</div>
         </div>
-
-        </div>
-
+      </div>
     </div>
-</body>
+  </body>
 </html>
